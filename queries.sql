@@ -1,8 +1,9 @@
--- Query 1: Top 5 Earning Artists
--- Just trying to find the artists who made the most money
-SELECT 
-    Artist.Name AS ArtistName,
-    SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS TotalRevenue
+
+-- Junior Analyst Note: This file contains the SQL queries used to build our dashboard
+
+-- 1. Top Earning Artists
+-- Goal: Find which artists brought in the most revenue by summing their track sales
+SELECT Artist.Name AS ArtistName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS TotalRevenue
 FROM Artist
 JOIN Album ON Artist.ArtistId = Album.ArtistId
 JOIN Track ON Album.AlbumId = Track.AlbumId
