@@ -1,38 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Chinook SQL Analysis Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
     <header>
         <h1>Chinook SQL Analysis Dashboard</h1>
-        <p>Insights from the digital music store database using SQL + Python</p>
+        <p>Insights from the Chinook database using SQL and Chart.js</p>
+        <!-- Junior Analyst Note: Adding a button for users to download all charts as a PDF -->
+        <button id="downloadPDF">Download Dashboard as PDF</button>
     </header>
 
+    <!-- Chart Sections -->
     <section>
         <h2>Top Earning Artists</h2>
-        <img src="images/top_earning_artists.png" alt="Top Earning Artists Chart">
+        <canvas id="topArtistsChart"></canvas>
     </section>
 
     <section>
         <h2>Invoices by Country</h2>
-        <img src="images/invoices_by_country.png" alt="Invoices by Country">
+        <canvas id="invoicesByCountryChart"></canvas>
     </section>
 
     <section>
-        <h2>Top Customers</h2>
-        <img src="images/top_customers.png" alt="Top Customers">
+        <h2>Top Customers by Spending</h2>
+        <canvas id="topCustomersChart"></canvas>
     </section>
 
     <section>
-        <h2>Tracks by Top Artists</h2>
-        <img src="images/tracks_by_top_artists.png" alt="Tracks by Top Artists">
+        <h2>Top 10 Artists by Track Count</h2>
+        <canvas id="tracksByArtistsChart"></canvas>
     </section>
 
-    <footer>
-        <p>Created by a Junior Data Analyst | View on GitHub</p>
-    </footer>
+    <script>
+        // Junior Analyst Comment: Using Chart.js to make our dashboard interactive
+        const topArtistsChart = new Chart(document.getElementById('topArtistsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Iron Maiden', 'U2', 'Metallica', 'Led Zeppelin', 'Lost'],
+                datasets: [{
+                    label: 'Total Revenue ($)',
+                    data: [138.5999999999998, 105.92999999999982, 90.0899999999999, 86.12999999999992, 81.58999999999997],
+                    backgroundColor: '#4e79a7'
+                }]
+            },
+            options: { responsive: true, plugins: { title: { display: true, text: 'Top Earning Artists' } } }
+        });
+
+        const invoicesByCountryChart = new Chart(document.getElementById('invoicesByCountryChart'), {
+            type: 'bar',
+            data: {
+                labels: ['USA', 'Canada', 'France', 'Brazil', 'Germany', 'United Kingdom', 'Portugal', 'Czech Republic', 'India', 'Sweden'],
+                datasets: [{
+                    label: 'Number of Invoices',
+                    data: [91, 56, 35, 35, 28, 21, 14, 14, 13, 7],
+                    backgroundColor: '#59a14f'
+                }]
+            },
+            options: { responsive: true, plugins: { title: { display: true, text: 'Invoices by Country' } } }
+        });
+
+        const topCustomersChart = new Chart(document.getElementById('topCustomersChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Helena Holý', 'Richard Cunningham', 'Luis Rojas', 'Ladislav Kovács', "Hugh O'Reilly"],
+                datasets: [{
+                    label: 'Total Spent ($)',
+                    data: [49.620000000000005, 47.620000000000005, 46.62, 45.62, 45.62],
+                    backgroundColor: '#f28e2b'
+                }]
+            },
+            options: { responsive: true, plugins: { title: { display: true, text: 'Top Customers' } } }
+        });
+
+        const tracksByArtistsChart = new Chart(document.getElementById('tracksByArtistsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Iron Maiden', 'U2', 'Led Zeppelin', 'Metallica', 'Lost', 'Deep Purple', 'Pearl Jam', 'Lenny Kravitz', 'Various Artists', 'The Office'],
+                datasets: [{
+                    label: 'Track Count',
+                    data: [213, 135, 114, 112, 92, 92, 67, 57, 56, 53],
+                    backgroundColor: '#e15759'
+                }]
+            },
+            options: { responsive: true, plugins: { title: { display: true, text: 'Tracks by Top Artists' } } }
+        });
+
+        // Junior Analyst Comment: Adding functionality to download the dashboard as PDF
+        document.getElementById('downloadPDF').addEventListener('click', () => {
+            const pdf = new jspdf.jsPDF('p', 'pt', 'a4');
+            html2canvas(document.body).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps= pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('Chinook_Dashboard.pdf');
+            });
+        });
+    </script>
 </body>
 </html>
