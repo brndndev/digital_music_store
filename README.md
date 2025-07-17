@@ -25,7 +25,6 @@ This project analyzes the **Chinook digital music store** database using SQL, Py
 
 ## 📷 Dashboard Preview
 ![Dashboard Preview](dashboard-preview.png)
-*(Placeholder: Open the HTML file locally to see the real charts)*
 
 ---
 
