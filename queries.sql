@@ -1,4 +1,3 @@
-
 -- Junior Analyst Note: This file contains the SQL queries used to build our dashboard
 
 -- 1. Top Earning Artists
