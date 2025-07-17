@@ -21,10 +21,10 @@ LIMIT 10;
 
 -- 3. Top Customers by Spending
 -- Goal: Who are our highest spending customers? Perfect for loyalty programs
-SELECT Customer.FirstName || ' ' || Customer.LastName AS FullName, SUM(Invoice.Total) AS TotalSpent
+SELECT CONCAT(Customer.FirstName, ' ', Customer.LastName) AS FullName, SUM(Invoice.Total) AS TotalSpent
 FROM Customer
 JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
-GROUP BY Customer.CustomerId
+GROUP BY Customer.CustomerId, Customer.FirstName, Customer.LastName
 ORDER BY TotalSpent DESC
 LIMIT 5;
 
