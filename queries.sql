@@ -7,7 +7,7 @@ FROM Artist
 JOIN Album ON Artist.ArtistId = Album.ArtistId
 JOIN Track ON Album.AlbumId = Track.AlbumId
 JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId
-GROUP BY Artist.ArtistId
+GROUP BY Artist.ArtistId, Artist.Name
 ORDER BY TotalRevenue DESC
 LIMIT 5;
 
@@ -34,6 +34,6 @@ SELECT Artist.Name AS ArtistName, COUNT(Track.TrackId) AS TrackCount
 FROM Artist
 JOIN Album ON Artist.ArtistId = Album.ArtistId
 JOIN Track ON Album.AlbumId = Track.AlbumId
-GROUP BY Artist.ArtistId
+GROUP BY Artist.ArtistId, Artist.Name
 ORDER BY TrackCount DESC
-LIMIT 10;
+LIMIT
